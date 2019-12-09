@@ -1,0 +1,26 @@
+{
+  "name": "sorting",
+  "version": "1.0.0",
+  "description": "Sorting algorithms",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "babel-node index.js",
+    "debug": "babel-node debug index.js"
+  },
+  "jest": {
+    "verbose": true,
+    "maxConcurrency": 1,
+    "maxWorkers": 1
+  },
+  "author": "Maksym Skoliarenko",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.7.4",
+    "@babel/core": "^7.7.4",
+    "@babel/node": "^7.7.4",
+    "@babel/preset-env": "^7.7.4",
+    "babel-jest": "^24.9.0",
+    "jest": "^24.9.0"
+  }
+}
