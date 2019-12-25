@@ -3,4 +3,4 @@
 import sort from '../../src/sorting/stupid.js';
 import testing from './testing.js';
 
-testing(sort);
+testing(sort, 100);
