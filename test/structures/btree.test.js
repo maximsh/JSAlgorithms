@@ -162,6 +162,11 @@ test('delete node with two children', () => {
 	expect(tree.left().right().left()).toBeNull();
 });
 
+test('check iteartor for empty tree', () => {
+	const tree = new BTree();
+	expect(Array.from(tree)).toEqual([]);
+});
+
 test('check iteartor', () => {
 	const tree = new BTree();
 	tree.put(8);
@@ -173,6 +178,5 @@ test('check iteartor', () => {
 	tree.put(14);
 	tree.put(4);
 	tree.put(13);
-
 	expect(Array.from(tree)).toEqual([1,3,4,6,7,8,10,13,14]);
 });

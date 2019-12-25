@@ -6,7 +6,9 @@ class BTreeIterator {
 			if (node.left()) {
 				yield* helper(node.left());
 			}
-			yield node.value();
+			if (!node.isEmpty()) {
+				yield node.value();
+			}
 			if (node.right()) {
 				yield* helper(node.right());
 			}
