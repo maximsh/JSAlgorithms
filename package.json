@@ -1,12 +1,11 @@
 {
   "name": "sorting",
+  "type": "module",
   "version": "1.0.0",
   "description": "Sorting algorithms",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "start": "babel-node index.js",
-    "debug": "babel-node debug index.js"
+    "test": "jest"
   },
   "jest": {
     "verbose": true,
@@ -16,11 +15,7 @@
   "author": "Maksym Skoliarenko",
   "license": "MIT",
   "devDependencies": {
-    "@babel/cli": "^7.7.4",
-    "@babel/core": "^7.7.4",
-    "@babel/node": "^7.7.4",
-    "@babel/preset-env": "^7.7.4",
-    "babel-jest": "^24.9.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.7.5",
     "jest": "^24.9.0"
   }
 }
