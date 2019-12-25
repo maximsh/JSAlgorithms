@@ -1,7 +1,11 @@
 /*jshint esversion: 6 */
 
 function compare(a, b) {
-	return a > b ? 1 : (a < b ? -1 : 0);
+	if (a === b || (Number.isNaN(a) && Number.isNaN(b))) {
+		return 0;
+	}
+
+	return a > b || Number.isNaN(a) ? 1 : -1;
 }
 
 export default compare;
