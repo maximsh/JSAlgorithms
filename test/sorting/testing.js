@@ -2,7 +2,7 @@
 
 import compare from '../../src/core/compare.js';
 
-function testing(sort) {
+function testing(sort, arraySize = 1024) {
 	test('sort []', () => {
 		expect(sort([])).toEqual([]);
 	});
@@ -25,14 +25,14 @@ function testing(sort) {
 
 	test('result is equal to system sort', () => {
 		for (let i = 0; i < 10; i++) {
-			const data = Array.from({length: 1024}, Math.random);
+			const data = Array.from({length: arraySize}, Math.random);
 			const sortedSystem = data.slice().sort(compare);
 			expect(sort(data)).toEqual(sortedSystem);
 		}
 	});
 
 	test('sorted array is not changed', () => {
-		const original = Array.from({length: 1024}, Math.random).sort(compare);
+		const original = Array.from({length: arraySize}, Math.random).sort(compare);
 		expect(sort(original.slice())).toEqual(original);
 	});
 }
