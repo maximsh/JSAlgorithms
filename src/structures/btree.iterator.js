@@ -3,14 +3,14 @@
 class BTreeIterator {
 	constructor(root) {
 		function* helper(node) {
-			if (node.left()) {
-				yield* helper(node.left());
+			if (node.left) {
+				yield* helper(node.left);
 			}
-			if (!node.isEmpty()) {
-				yield node.value();
+			if (!node.isEmpty) {
+				yield node.value;
 			}
-			if (node.right()) {
-				yield* helper(node.right());
+			if (node.right) {
+				yield* helper(node.right);
 			}
 		}
 

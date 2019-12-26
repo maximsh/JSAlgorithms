@@ -1,14 +1,16 @@
 /*jshint esversion: 6 */
 
-import BTree from './src/core/btree.js';
+import Heap from './src/structures/minheap.js';
 
-const tree = new BTree();
+const heap = new Heap();
+heap.put(8);
+heap.put(3);
+heap.put(6);
+heap.put(10);
+heap.put(7);
+heap.put(1);
+heap.put(14);
+heap.put(4);
+heap.put(13);
 
-tree.add(5);
-tree.add(8);
-tree.add(1);
-tree.add(9);
-tree.add(12);
-tree.add(0);
-tree.add(3);
-tree.add(4);
+console.log(Array.from(heap));
