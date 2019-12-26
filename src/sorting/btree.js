@@ -5,7 +5,7 @@ import BTree from '../structures/btree.js';
 
 function sort(data, compareFunction = compare) {
 	const tree = new BTree();
-	tree.setComparator(compareFunction);
+	tree.comparator = compareFunction;
 
 	for (let item of data) {
 		tree.put(item);

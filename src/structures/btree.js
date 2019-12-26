@@ -18,59 +18,67 @@ class BTree {
         this[rightNode] = null;
         this[parentNode] = null;
 
-        this.setComparator(defaultComparator);
-        this.setIterator(defaultIterator);
+        this.comparator = defaultComparator;
+        this.iterator = defaultIterator;
     }
 
-    setComparator(compare) {
-        this[nodeComparator] = compare;
+    get comparator() {
+        return this[nodeComparator];
     }
 
-    setIterator(className) {
+    set comparator(compareFunction) {
+        this[nodeComparator] = compareFunction;
+    }
+
+    get iterator() {
+        return this[nodeIterator];
+    }
+
+    set iterator(className) {
         this[nodeIterator] = className;
     }
 
-    value() {
-        if (this.isEmpty()) {
+    get value() {
+        if (this.isEmpty) {
             return undefined;
         }
         return this[data];
     }
 
-    parent() {
+    get parent() {
         return this[parentNode];
     }
 
-    left() {
+    get left() {
         return this[leftNode];
     }
 
-    right() {
+    get right() {
         return this[rightNode];
     }
 
-    isEmpty() {
+    get isEmpty() {
         return this[data] === emptyNode;
     }
 
+    get min() {
+        return this.left ? this.left.min : this;
+    }
+
+    get max() {
+        return this.right ? this.right.max : this;
+    }
+
     compare(value) {
-        return this[nodeComparator](this[data], value);
+        return this.comparator(this.value, value);
     }
 
     chooseBranch(nodeComparison) {
         return nodeComparison >= 0 ? leftNode : rightNode;
     }
 
-    findMin() {
-        return this[leftNode] ? this[leftNode].findMin() : this;
-    }
-
-    findMax() {
-        return this[rightNode] ? this[rightNode].findMax() : this;
-    }
-
     find(value) {
-        if (this.isEmpty()) {
+        if (this.isEmpty) {
             return null;
         }
         const nodeComparison = this.compare(value);
@@ -82,7 +90,7 @@ class BTree {
     }
 
     put(value) {
-        if (this.isEmpty()) {
+        if (this.isEmpty) {
             this[data] = value;
             return this;
         }
@@ -98,11 +106,11 @@ class BTree {
     }
 
     replace(node1, node2 = null) {
-        if (this[leftNode] === node1) {
+        if (this.left === node1) {
             this[leftNode] = node2;
         }
 
-        if (this[rightNode] === node1) {
+        if (this.right === node1) {
             this[rightNode] = node2;
         }
     }
@@ -111,15 +119,15 @@ class BTree {
         const node = this.find(value);
         if (node) {
             let childNode;
-            if (node[leftNode] && node[rightNode]) {
-                childNode = node[rightNode].findMin();
-                childNode[parentNode].replace(childNode);
-                childNode[leftNode] = node[leftNode];
-                childNode[rightNode] = node[rightNode];
+            if (node.left && node.right) {
+                childNode = node.right.min;
+                childNode.parent.replace(childNode);
+                childNode[leftNode] = node.left;
+                childNode[rightNode] = node.right;
             } else {
-                childNode = node[leftNode] || node[rightNode];
+                childNode = node.left || node.right;
             }
-            const owner = node[parentNode];
+            const owner = node.parent;
             if (owner !== null) {
                 owner.replace(node, childNode);
             } else {
@@ -132,7 +140,7 @@ class BTree {
     }
 
     [Symbol.iterator]() {
-        return new this[nodeIterator](this);
+        return new this.iterator(this);
     }
 }
 
