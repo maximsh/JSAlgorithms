@@ -1,11 +1,11 @@
 /*jshint esversion: 6 */
 
 import compare from '../core/compare.js';
-import bubble from './bubble.js';
+import gnome from './gnome.js';
 
 function sort(data, compareFunction = compare) {
 	if (data.length < 4) {
-		bubble(data, compareFunction);
+		gnome(data, compareFunction);
 	} else {
 		const center = data.length >> 1;
 		const left = data.slice(0, center);
