@@ -33,7 +33,16 @@ function testing(sort, arraySize = 1024) {
 
 	test('sorted array is not changed', () => {
 		const original = Array.from({length: arraySize}, Math.random).sort(compare);
-		expect(sort(original.slice())).toEqual(original);
+		for (let i = 0; i < 10; i++) {
+			expect(sort(original.slice())).toEqual(original);
+		}
+	});
+
+	test('array of 0', () => {
+		const original = Array.from({length: arraySize}, () => 0);
+		for (let i = 0; i < 10; i++) {
+			expect(sort(original.slice())).toEqual(original);
+		}
 	});
 }
 
