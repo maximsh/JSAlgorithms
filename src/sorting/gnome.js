@@ -13,8 +13,8 @@ function sort(data, compareFunction = compare) {
 			let step = 1;
 			if (compareFunction(data[index-1], data[index]) > 0) {
 				[data[index-1], data[index]] = [data[index], data[index-1]];
-				isChanged = true;
-				step = index > 1 ? -1 : 1;
+				isChanged = index > 1;
+				step = isChanged ? -1 : 1;
 			}
 			index += step;
 		}
