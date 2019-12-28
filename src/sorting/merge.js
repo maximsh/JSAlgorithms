@@ -1,15 +1,29 @@
 /*jshint esversion: 6 */
 
 import compare from '../core/compare.js';
-import gnome from './gnome.js';
 
 function sort(data, compareFunction = compare) {
-	if (data.length < 4) {
-		gnome(data, compareFunction);
+	const size = data.length;
+	if (size < 2) {
+		return data;
+	}
+
+	if (size < 4) {
+		if (compareFunction(data[0], data[1]) > 0) {
+			[data[0], data[1]] = [data[1], data[0]];
+		}
+		if (size == 3) {
+			if (compareFunction(data[1], data[2]) > 0) {
+				[data[1], data[2]] = [data[2], data[1]];
+			}
+			if (compareFunction(data[0], data[1]) > 0) {
+				[data[0], data[1]] = [data[1], data[0]];
+			}
+		}
 	} else {
-		const center = data.length >> 1;
-		const left = data.slice(0, center);
-		const right = data.slice(center);
+		const half = size >> 1;
+		const left = data.slice(0, half);
+		const right = data.slice(half);
 		let mainPos = 0;
 		let leftPos = 0;
 		let rightPos = 0;
