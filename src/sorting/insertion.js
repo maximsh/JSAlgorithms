@@ -2,8 +2,7 @@
 
 import compare from '../core/compare.js';
 
-function sort(arr, compareFunction = compare) {
-	const data = arr.slice();
+function sort(data, compareFunction = compare) {
 	let bufferSize = 1;
 
 	while (bufferSize < data.length) {
