@@ -24,10 +24,12 @@ function testing(sort, arraySize = 1024) {
 	});
 
 	test('result is equal to system sort', () => {
-		for (let i = 0; i < 10; i++) {
-			const data = Array.from({length: arraySize}, Math.random);
+		let size = arraySize;
+		while (size) {
+			const data = Array.from({length: size}, Math.random);
 			const sortedSystem = data.slice().sort(compare);
 			expect(sort(data)).toEqual(sortedSystem);
+			size = size >> 1;
 		}
 	});
 
