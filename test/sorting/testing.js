@@ -2,7 +2,7 @@
 
 import compare from '../../src/core/compare.js';
 
-function testing(sort, arraySize = 1024) {
+function testing(sort, arraySize = 2048) {
 	test('sort []', () => {
 		expect(sort([])).toEqual([]);
 	});
