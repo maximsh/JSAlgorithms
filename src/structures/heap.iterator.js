@@ -2,7 +2,7 @@
 
 import Heap from "./heap.js";
 
-class HeapIterator {
+class Iterator {
 	constructor(heap) {
 		function* helper(heap) {
 			while (!heap.isEmpty) {
@@ -18,4 +18,4 @@ class HeapIterator {
 	}
 }
 
-export default HeapIterator;
+export default Iterator;
