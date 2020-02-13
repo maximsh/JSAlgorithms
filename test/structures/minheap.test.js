@@ -32,7 +32,7 @@ test('put the first item', () => {
 	expect(heap.peak).toBeUndefined();
 });
 
-test('put 2 itmes. second item is bigger then first', () => {
+test('put 2 items. second item is bigger then first', () => {
 	const data1 = Math.random();
 	const data2 = data1 + Math.random();
 	const heap = new Heap();
@@ -48,14 +48,14 @@ test('put 2 itmes. second item is bigger then first', () => {
 	expect(heap.peak).toEqual(data2);
 	expect(heap.size).toEqual(1);
 
-	// extract second item
+	// extract the second item
 	expect(heap.shift()).toEqual(data2);
 	expect(heap.isEmpty).toEqual(true);
 	expect(heap.peak).toBeUndefined();
 	expect(heap.size).toEqual(0);
 });
 
-test('put 2 itmes. second item is less then first', () => {
+test('put 2 items. the second item is less then first', () => {
 	const data1 = Math.random();
 	const data2 = data1 - Math.random();
 	const heap = new Heap();
