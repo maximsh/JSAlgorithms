@@ -1,20 +1,20 @@
 /*jshint esversion: 6 */
 
-class BTreeIterator {
-	constructor(root) {
+class Iterator {
+	constructor(tree) {
 		function* helper(node) {
-			if (node.left) {
-				yield* helper(node.left);
-			}
-			if (!node.isEmpty) {
-				yield node.value;
-			}
-			if (node.right) {
-				yield* helper(node.right);
+			if (node) {
+				if (node.left) {
+					yield* helper(node.left);
+				}
+				yield node;
+				if (node.right) {
+					yield* helper(node.right);
+				}
 			}
 		}
 
-		this.iterator = helper(root);
+		this.iterator = helper(tree.root);
 	}
 
 	next() {
@@ -22,4 +22,4 @@ class BTreeIterator {
 	}
 }
 
-export default BTreeIterator;
+export default Iterator;

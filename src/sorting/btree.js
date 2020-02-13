@@ -1,17 +1,17 @@
 /*jshint esversion: 6 */
 
 import compare from '../core/compare.js';
-import BTree from '../structures/btree.js';
+import Tree from '../structures/btree.js';
 
 function sort(data, compareFunction = compare) {
-	const tree = new BTree();
+	const tree = new Tree();
 	tree.comparator = compareFunction;
 
 	for (let item of data) {
 		tree.put(item);
 	}
 
-	data = Array.from(tree);
+	data = Array.from(tree).map(node => node.key);
 
 	return data;
 }

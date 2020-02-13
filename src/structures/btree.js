@@ -3,106 +3,61 @@
 import defaultComparator from '../core/compare.js';
 import defaultIterator from './btree.iterator.js';
 
-const data = Symbol('data');
-const parentNode = Symbol('parentNode');
-const leftNode = Symbol('leftNode');
-const rightNode = Symbol('rightNode');
-const nodeComparator = Symbol('compare');
-const emptyNode = Symbol('emptyNode');
-const nodeIterator = Symbol('nodeIterator');
+class Node {
+    constructor(key, value = null) {
+        this.key = key;
+        this.value = value;
+        this.left = null;
+        this.right = null;
+        this.parent = null;
+        this.branchHeight = 1;
+    }
+}
 
-class BTree {
-    constructor(value = emptyNode) {
-        this[data] = value;
-        this[leftNode] = null;
-        this[rightNode] = null;
-        this[parentNode] = null;
-
+class Tree {
+    constructor() {
+        this.root= null;
         this.comparator = defaultComparator;
         this.iterator = defaultIterator;
     }
 
-    get comparator() {
-        return this[nodeComparator];
+    min(node = this.root) {
+        return node && node.left ? this.min(node.left) : node;
     }
 
-    set comparator(compareFunction) {
-        this[nodeComparator] = compareFunction;
-    }
-
-    get iterator() {
-        return this[nodeIterator];
-    }
-
-    set iterator(className) {
-        this[nodeIterator] = className;
-    }
-
-    get value() {
-        if (this.isEmpty) {
-            return undefined;
-        }
-        return this[data];
-    }
-
-    get parent() {
-        return this[parentNode];
-    }
-
-    get left() {
-        return this[leftNode];
-    }
-
-    get right() {
-        return this[rightNode];
-    }
-
-    get isEmpty() {
-        return this[data] === emptyNode;
-    }
-
-    get min() {
-        return this.left ? this.left.min : this;
-    }
-
-    get max() {
-        return this.right ? this.right.max : this;
-    }
-
-    compare(value) {
-        return this.comparator(this.value, value);
+    max(node = this.root) {
+        return node && node.right ? this.max(node.right) : node;
     }
 
     chooseBranch(nodeComparison) {
-        return nodeComparison >= 0 ? leftNode : rightNode;
+        return nodeComparison >= 0 ? 'left' : 'right';
     }
 
-    find(value) {
-        if (this.isEmpty) {
-            return null;
+    find(key, node = this.root) {
+        if (node) {
+            const nodeComparison = this.comparator(node.key, key);
+            if (nodeComparison) {
+                return this.find(key, node[this.chooseBranch(nodeComparison)]);
+            }
         }
-        const nodeComparison = this.compare(value);
-        if (nodeComparison === 0) {
-            return this;
-        }
-        const branch = this.chooseBranch(nodeComparison);
-        return this[branch] ? this[branch].find(value) : null;
+        return node;
     }
 
-    put(value) {
-        if (this.isEmpty) {
-            this[data] = value;
-            return this;
-        }
-        const branch = this.chooseBranch(this.compare(value));
-        if (this[branch]) {
-            return this[branch].put(value);
-        } else {
-            const node = new BTree(value);
-            node[parentNode] = this;
-            this[branch] = node;
+    put(key, value = null) {
+        const newNode = new Node(key, value);
+        const insert = function(node) {
+            if (!node) {
+                return newNode;
+            }
+            const branch = this.chooseBranch(this.comparator(node.key, key));
+            node[branch] = insert(node[branch]);
+            node[branch].parent = node;
             return node;
-        }
+        }.bind(this);
+
+        this.root = insert(this.root);
+
+        return newNode;
     }
 
     replace(node1, node2 = null) {
@@ -115,28 +70,43 @@ class BTree {
         }
     }
 
-    delete(value) {
-        const node = this.find(value);
-        if (node) {
-            let childNode;
-            if (node.left && node.right) {
-                childNode = node.right.min;
-                childNode.parent.replace(childNode);
-                childNode[leftNode] = node.left;
-                childNode[rightNode] = node.right;
-            } else {
-                childNode = node.left || node.right;
+    delete(key) {
+        const removemin = function(node) {
+            if (node.left) {
+                node.left = removemin(node.left);
+                return node;
             }
-            const owner = node.parent;
-            if (owner !== null) {
-                owner.replace(node, childNode);
+            return node.right;
+        }.bind(this);
+        const remove = function(node) {
+            if (!node) {
+                return node;
+            }
+
+            const nodeComparison = this.comparator(node.key, key);
+            if (nodeComparison) {
+                const branch = this.chooseBranch(this.comparator(node.key, key));
+                node[branch] = remove(node[branch]);
             } else {
-                for (let key in this) {
-                    delete this[key];
+                if (node.right) {
+                    if (node.right.left) {
+                        let min = this.min(node.right);
+                        min.right = removemin(node.right);
+                        min.left = node.left;
+                        return min;
+                    } else {
+                        return node.right;
+                    }
+                } else {
+                    return node.left;
                 }
-                node[data] = emptyNode;
             }
-        }
+
+            return node;
+        }.bind(this);
+
+
+        this.root = remove(this.root);
     }
 
     [Symbol.iterator]() {
@@ -144,4 +114,4 @@ class BTree {
     }
 }
 
-export default BTree;
+export default Tree;
