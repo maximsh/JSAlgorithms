@@ -18,7 +18,6 @@ test('put the first item', () => {
 	expect(tree.root).not.toBeNull();
 	expect(tree.root.left).toBeNull();
 	expect(tree.root.right).toBeNull();
-	expect(tree.root.parent).toBeNull();
 	expect(tree.root.key).toEqual(key);
 	expect(tree.root.value).toEqual(value);
 	expect(tree.max()).toEqual(tree.min());
@@ -42,11 +41,9 @@ test('put 2 items. the second item is great then the first', () => {
 	expect(tree.root).not.toBeNull();
 	expect(tree.root.left).toBeNull();
 	expect(tree.root.right).not.toBeNull();
-	expect(tree.root.parent).toBeNull();
 	expect(tree.root.key).toEqual(key1);
 	expect(tree.root.value).toEqual(value1);
 
-	expect(tree.root.right.parent).toEqual(tree.root);
 	expect(tree.root.right.key).toEqual(key2);
 	expect(tree.root.right.value).toEqual(value2);
 
@@ -76,11 +73,9 @@ test('put 2 items. second item is less then first', () => {
 	expect(tree.root).not.toBeNull();
 	expect(tree.root.left).not.toBeNull();
 	expect(tree.root.right).toBeNull();
-	expect(tree.root.parent).toBeNull();
 	expect(tree.root.key).toEqual(key1);
 	expect(tree.root.value).toEqual(value1);
 
-	expect(tree.root.left.parent).toEqual(tree.root);
 	expect(tree.root.left.key).toEqual(key2);
 	expect(tree.root.left.value).toEqual(value2);
 
@@ -113,38 +108,30 @@ test('canonical tree', () => {
 	expect(tree.root.key).toEqual(6);
 
 	expect(tree.root.left.key).toEqual(3);
-	expect(tree.root.left.parent).toEqual(tree.root);
 
 	expect(tree.root.left.left.key).toEqual(1);
-	expect(tree.root.left.left.parent).toEqual(tree.root.left);
 	expect(tree.root.left.left.left).toBeNull();
 	expect(tree.root.left.left.right).toBeNull();
 
 	expect(tree.root.left.right.key).toEqual(4);
-	expect(tree.root.left.right.parent).toEqual(tree.root.left);
 	expect(tree.root.left.right.left).toBeNull();
 	expect(tree.root.left.right.right).toBeNull();
 
 	expect(tree.root.right.key).toEqual(8);
-	expect(tree.root.right.parent).toEqual(tree.root);
 
 	expect(tree.root.right.left.key).toEqual(7);
-	expect(tree.root.right.left.parent).toEqual(tree.root.right);
 	expect(tree.root.right.left.left).toBeNull();
 	expect(tree.root.right.left.right).toBeNull();
 
 	expect(tree.root.right.right.key).toEqual(13);
-	expect(tree.root.right.right.parent).toEqual(tree.root.right);
 
 	expect(tree.root.right.right.left).not.toBeNull();
 	expect(tree.root.right.right.left.key).toEqual(10);
-	expect(tree.root.right.right.left.parent).toEqual(tree.root.right.right);
 	expect(tree.root.right.right.left.left).toBeNull();
 	expect(tree.root.right.right.left.right).toBeNull();
 
 	expect(tree.root.right.right.right).not.toBeNull();
 	expect(tree.root.right.right.right.key).toEqual(14);
-	expect(tree.root.right.right.right.parent).toEqual(tree.root.right.right);
 	expect(tree.root.right.right.right.left).toBeNull();
 	expect(tree.root.right.right.right.right).toBeNull();
 });

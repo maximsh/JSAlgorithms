@@ -9,7 +9,6 @@ class Node {
         this.value = value;
         this.left = null;
         this.right = null;
-        this.parent = null;
         this.branchHeight = 1;
     }
 }
@@ -51,23 +50,12 @@ class Tree {
             }
             const branch = this.chooseBranch(this.comparator(node.key, key));
             node[branch] = insert(node[branch]);
-            node[branch].parent = node;
             return node;
         }.bind(this);
 
         this.root = insert(this.root);
 
         return newNode;
-    }
-
-    replace(node1, node2 = null) {
-        if (this.left === node1) {
-            this[leftNode] = node2;
-        }
-
-        if (this.right === node1) {
-            this[rightNode] = node2;
-        }
     }
 
     delete(key) {
@@ -89,14 +77,10 @@ class Tree {
                 node[branch] = remove(node[branch]);
             } else {
                 if (node.right) {
-                    if (node.right.left) {
-                        let min = this.min(node.right);
-                        min.right = removemin(node.right);
-                        min.left = node.left;
-                        return min;
-                    } else {
-                        return node.right;
-                    }
+                    let min = this.min(node.right);
+                    min.right = removemin(node.right);
+                    min.left = node.left;
+                    return min;
                 } else {
                     return node.left;
                 }
@@ -114,4 +98,5 @@ class Tree {
     }
 }
 
+export {Node, Tree};
 export default Tree;
